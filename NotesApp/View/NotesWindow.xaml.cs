@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NotesApp.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Speech.Recognition;
 using System.Text;
@@ -23,9 +25,15 @@ namespace NotesApp.View
     public partial class NotesWindow : Window
     {
         SpeechRecognitionEngine recognizer;
+        NotesVM viewModel;
+
         public NotesWindow()
         {
             InitializeComponent();
+            viewModel = new NotesVM();
+            container.DataContext = viewModel;
+            viewModel.SelectedNoteChanged += ViewModel_SelectedNoteChanged;
+
             var currentCulture = (from r in SpeechRecognitionEngine.InstalledRecognizers()
                                   where r.Culture.Equals(Thread.CurrentThread.CurrentCulture)
                                   select r).FirstOrDefault();
@@ -42,6 +50,17 @@ namespace NotesApp.View
 
             List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 28 };
             fontSizeComboBox.ItemsSource = fontSizes;
+        }
+
+        private void ViewModel_SelectedNoteChanged(object sender, EventArgs e)
+        {
+            contentRichTextBox.Document.Blocks.Clear();
+          if(!string.IsNullOrEmpty( viewModel.SelectedNote.FileLocation))
+            {
+                FileStream fileStream = new FileStream(viewModel.SelectedNote.FileLocation, FileMode.Open);
+                TextRange range = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd);
+                range.Load(fileStream, DataFormats.Rtf);
+            }
         }
 
         private void Recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
@@ -69,8 +88,6 @@ namespace NotesApp.View
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
             else
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Normal);
-
-
         }
 
 
@@ -128,7 +145,6 @@ namespace NotesApp.View
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Italic);
             else
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
-
         }
 
         private void fontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -142,6 +158,27 @@ namespace NotesApp.View
         private void fontSizeComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSizeComboBox.Text);
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            if (string.IsNullOrEmpty(App.Userid))
+            {
+                LoginWindow loginwindow = new LoginWindow();
+                loginwindow.ShowDialog();
+            }
+        }
+
+        private void saveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            string rtfFile = System.IO.Path.Combine(Environment.CurrentDirectory, $"{viewModel.SelectedNote.Id}.rtf");
+            viewModel.SelectedNote.FileLocation = rtfFile;
+
+            FileStream fileStream = new FileStream(rtfFile, FileMode.Create);
+            TextRange range = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd);
+            range.Save(fileStream, DataFormats.Rtf);
+            viewModel.UpdateSelectedNote();
         }
     }
 }
