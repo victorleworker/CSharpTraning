@@ -125,6 +125,7 @@ namespace NotesApp.ViewModel
                 {
                     Notebooks.Add(notebook);
                 }
+                SelectedNotebook = Notebooks.FirstOrDefault();
             }
         }
 
@@ -148,7 +149,7 @@ namespace NotesApp.ViewModel
         {
             IsEditing = true;
         }
-        public void HasRenamed(Notebook notebook)
+        public void  HasRenamed(Notebook notebook)
         {
             if (notebook != null)
             {
