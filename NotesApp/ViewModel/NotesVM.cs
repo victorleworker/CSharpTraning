@@ -38,6 +38,8 @@ namespace NotesApp.ViewModel
             set
             {
                 selectedNotebook = value;
+                
+                OnPropertyChanged("SelectedNotebook");
                 ReadNotes();
             }
         }
@@ -50,6 +52,7 @@ namespace NotesApp.ViewModel
             get { return note; }
             set { note = value;
                 SelectedNoteChanged(this, new EventArgs());
+                OnPropertyChanged("SelectedNote");
             }
         }
 
