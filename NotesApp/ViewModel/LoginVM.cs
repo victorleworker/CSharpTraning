@@ -18,7 +18,7 @@ namespace NotesApp.ViewModel
             set { user = value; }
         }
 
-        public RegisterCommand   RegisterCommand { get; set; }
+        public RegisterCommand RegisterCommand { get; set; }
         public LoginCommand LoginCommand { get; set; }
 
         public event EventHandler HasLoginedIn;
@@ -32,15 +32,16 @@ namespace NotesApp.ViewModel
 
         public void Login()
         {
-            using(SQLite.SQLiteConnection  conn=new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
             {
                 conn.CreateTable<User>();
                 var user = conn.Table<User>().Where(u => u.Username == User.Username).FirstOrDefault();
-                if (user.Password==User.Password)
+
+                if (user != null && user.Password == User.Password)
                 {
                     App.Userid = user.Id.ToString();
                     HasLoginedIn(this, new EventArgs());
-                    
+
                 }
             }
         }

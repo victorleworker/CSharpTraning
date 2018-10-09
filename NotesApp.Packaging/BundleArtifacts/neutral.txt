@@ -1,0 +1,2 @@
+MainPackage=E:\CSharpTraning\NotesApp.Packaging\bin\AnyCPU\Debug\NotesApp.Packaging_1.1.0.0_AnyCPU_Debug.appx
+SymbolPackage=E:\CSharpTraning\NotesApp.Packaging\AppPackages\NotesApp.Packaging_1.1.0.0_Debug_Test\NotesApp.Packaging_1.1.0.0_AnyCPU_Debug.appxsym

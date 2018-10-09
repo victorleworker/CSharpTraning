@@ -20,9 +20,11 @@ namespace NotesApp.View
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        NotesWindow NotesWindow;
+        public LoginWindow(NotesWindow nw)
         {
             InitializeComponent();
+            NotesWindow = nw;
             LoginVM vm = new LoginVM();
             containerGrid.DataContext = vm;
             vm.HasLoginedIn += Vm_HasLoggedIn;
@@ -31,6 +33,7 @@ namespace NotesApp.View
 
         private void Vm_HasLoggedIn(object sender, EventArgs e)
         {
+            NotesWindow.Show();
             this.Close();
         }
 
@@ -44,6 +47,14 @@ namespace NotesApp.View
         {
             registerStackPanel.Visibility = Visibility.Visible; 
             loginStackPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(App.Userid))
+            {
+                Application.Current.Shutdown();
+            }                       
         }
     }
 }
