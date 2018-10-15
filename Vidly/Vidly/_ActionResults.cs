@@ -11,7 +11,9 @@ namespace Vidly
 
         Index,
 
-        Details
+        Details,
+        Edit,
+        Save
 
     }
 }
