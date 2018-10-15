@@ -6,14 +6,15 @@ using System.Web;
 namespace Vidly
 {
    
-    public enum _ActionResults
+    public static class _ActionResults
     {
 
-        Index,
+        public static string Index = "Index";
 
-        Details,
-        Edit,
-        Save
+        public static string Details = "Details";
+        public static string Edit = "Edit";
+        public static string Save = "Save";
+        public static string New = "New";
 
     }
 }

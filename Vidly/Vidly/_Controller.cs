@@ -7,14 +7,14 @@ using System.Web;
 namespace Vidly
 {
 
-    public enum _Controller
+    public static class _Controller
     {
 
-        Customers,
+        public static string Customers = "Customers";
 
-        Home,
+        public static string Home = "Home";
 
-        Movies
-
+        public static string Movies = "Movies";
+        public static string Rentals = "Rentals";
     }
 }

@@ -10,10 +10,12 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", _ActionResults.Index.ToString(), _Controller.Home.ToString())</li>
-                <li>@Html.ActionLink("Customers", _ActionResults.Index.ToString(), _Controller.Customers.ToString())</li>
-                <li>@Html.ActionLink("Movies", _ActionResults.Index.ToString(), _Controller.Movies.ToString())</li>
+                <li>@Html.ActionLink("Home", _ActionResults.Index, _Controller.Home)</li>
+                <li>@Html.ActionLink("New Rental", _ActionResults.New, _Controller.Rentals)</li>
+                <li>@Html.ActionLink("Customers", _ActionResults.Index, _Controller.Customers)</li>
+                <li>@Html.ActionLink("Movies", _ActionResults.Index, _Controller.Movies)</li>
             </ul>
+
             @Html.Partial("_LoginPartial")
         </div>
     </div>
