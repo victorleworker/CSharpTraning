@@ -20,14 +20,16 @@ namespace NotesApp.View
     /// </summary>
     public partial class LoginWindow : Window
     {
+        LoginVM viewModel;
         NotesWindow NotesWindow;
         public LoginWindow(NotesWindow nw)
         {
             InitializeComponent();
             NotesWindow = nw;
-            LoginVM vm = new LoginVM();
-            containerGrid.DataContext = vm;
-            vm.HasLoginedIn += Vm_HasLoggedIn;
+            viewModel = this.Resources["login"] as LoginVM;
+            //LoginVM vm = new LoginVM();
+            containerGrid.DataContext = viewModel;
+            viewModel.HasLoginedIn += Vm_HasLoggedIn;
 
         }
 
