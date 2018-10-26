@@ -18,8 +18,7 @@ namespace DatingApp.API.Data
 
         public async Task<User> Login(string username, string password)
         {
-
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            User user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Username == username);
             if (user == null)
                 return null;
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -31,7 +30,6 @@ namespace DatingApp.API.Data
         {
             using (System.Security.Cryptography.HMACSHA512 hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
-
                 byte[] computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
@@ -49,7 +47,6 @@ namespace DatingApp.API.Data
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
-
         }
 
         public async Task<User> Register(User user, string password)
