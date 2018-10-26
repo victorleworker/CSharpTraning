@@ -11,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from './_services/auth.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, ButtonsModule } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -31,6 +31,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { PaginationModule } from 'ngx-bootstrap';
 export function tokenGetter() {
     return localStorage.getItem('token');
 }
@@ -58,9 +59,11 @@ export function tokenGetter() {
       BsDatepickerModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
+      PaginationModule.forRoot(),
       NgxGalleryModule,
       FileUploadModule,
       ReactiveFormsModule,
+      ButtonsModule.forRoot(),
       JwtModule.forRoot({
           config: {
               tokenGetter: tokenGetter,
